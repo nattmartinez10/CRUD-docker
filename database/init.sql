@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS logs (
 
 INSERT INTO users (tipo, numdoc, nombre, segundo_nombre, apellidos, f_nacimiento, genero, correo, celular, foto)
 VALUES 
-('CC', '1234567890', 'Juan', 'Carlos', 'Perez', '1985-01-01', 'M', 'juan.perez@example.com', '3001234567', NULL),
-('CC', '0987654321', 'Maria', 'Luisa', 'Gomez', '1990-02-02', 'F', 'maria.gomez@example.com', '3109876543', NULL);
+('Cedula', '1234567890', 'Juan', 'Carlos', 'Perez', '1985-01-01', 'M', 'juan.perez@example.com', '3001234567', NULL),
+('Cedula', '0987654321', 'Maria', 'Luisa', 'Gomez', '1990-02-02', 'F', 'maria.gomez@example.com', '3109876543', NULL);
 
 INSERT INTO logs (tipo, document)
 VALUES 

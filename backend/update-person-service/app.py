@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, make_response
 from os import environ
 from models import db
 from models.user import User
+from models.log import Log
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -9,11 +10,10 @@ CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
 db.init_app(app)
 
-
-@app.route('/update-user/<int:id>', methods=['PUT'])
-def update_user(id):
+@app.route('/update-user/<string:numdoc>', methods=['PUT'])
+def update_user(numdoc):
     try:
-        user = User.query.filter_by(id=id).first()
+        user = User.query.filter_by(numdoc=numdoc).first()
         if user:
             data = request.get_json()
             if not data:
@@ -28,7 +28,10 @@ def update_user(id):
             user.genero = data.get('genero', user.genero)
             user.correo = data.get('correo', user.correo)
             user.celular = data.get('celular', user.celular)
-            user.foto = data.get('foto', user.foto)
+            
+            # Handle foto field
+            if 'foto' in data and data['foto']:
+                user.foto = data['foto'].encode('utf-8')  # Ensure foto is correctly encoded
 
             db.session.commit()
 
@@ -41,7 +44,9 @@ def update_user(id):
         return make_response(jsonify({'message': 'User not found'}), 404)
     except Exception as e:
         db.session.rollback()
+        app.logger.error(f'Error updating user: {str(e)}')  # Log the error
         return make_response(jsonify({'message': 'Error updating user', 'error': str(e)}), 500)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5003)
+
