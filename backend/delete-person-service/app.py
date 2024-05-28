@@ -3,16 +3,17 @@ from os import environ
 from models import db
 from models.user import User
 from models.log import Log
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
 db.init_app(app)
 
-
-@app.route('/delete-user/<int:id>', methods=['DELETE'])
-def delete_user(id):
+@app.route('/delete-user/<string:numdoc>', methods=['DELETE'])
+def delete_user(numdoc):
     try:
-        user = User.query.filter_by(id=id).first()
+        user = User.query.filter_by(numdoc=numdoc).first()
         if user:
             db.session.delete(user)
             db.session.commit()
@@ -26,3 +27,4 @@ def delete_user(id):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5004)
+

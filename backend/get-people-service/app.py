@@ -2,8 +2,10 @@ from flask import Flask, request, jsonify, make_response
 from os import environ
 from models import db
 from models.user import User
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
 db.init_app(app)
 

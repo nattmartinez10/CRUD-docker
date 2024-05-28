@@ -82,13 +82,13 @@ services:
     networks:
       - backend
 
-  #frontend:
-    #build:
-      #context: ./frontend
-    #ports:
-      #- "3000:3000"
-    #networks:
-     # - backend
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - backend
 
 networks:
   backend:
